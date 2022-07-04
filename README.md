@@ -1,7 +1,11 @@
 
-# Task
+# Stock
+Backend Stock App
 
-An small Stock App
+## Variables
+Variables to configure:
+
+
 ## Installation
 
 Install node repositories with npm install
