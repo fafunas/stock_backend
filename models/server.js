@@ -10,6 +10,7 @@ class Server{
 
         //Paths
         this.userPath = '/api/users';
+        this.authPath= '/api/auth'
 
         //Db Conection
         this.conectdb();
@@ -44,6 +45,7 @@ class Server{
 
     routes(){
         this.app.use(this.userPath,require('../routes/users'))
+        this.app.use(this.authPath,require('../routes/auth'))
     }
 
 
