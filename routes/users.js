@@ -4,6 +4,7 @@ const {check} = require('express-validator');
 
 const {usersPut,usersDelete,usersGet,usersPatch,usersPost} = require('../controllers/users')
 const {validarCampos} = require('../middlewares/validateFields')
+const {userExist} = require('../helpers/validators')
 
 
 const router = Router();
@@ -21,8 +22,12 @@ router.post('/',[
 
 router.put('/:id',[
     check('id','Not valid ID').isMongoId(),
+    check('id').custom(userExist), //Revisar no funciona el findbyid
     validarCampos
 ], usersPut)
+
+
+router.delete('/:id', usersDelete)
 
 
 module.exports = router;
