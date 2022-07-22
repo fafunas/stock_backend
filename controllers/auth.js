@@ -34,10 +34,9 @@ const login = async (req, res = response) => {
 
     //JWT
      const token = await genJWT(user.id);
-
+ 
     res.json({
-      user,
-      token
+   token
     });
   } catch (error) {
     console.log(error);
