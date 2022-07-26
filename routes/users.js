@@ -2,7 +2,7 @@ const {Router} = require('express');
 const {check} = require('express-validator');
 
 
-const {usersPut,usersDelete,usersGet,usersPatch,usersPost} = require('../controllers/users')
+const {usersPut,usersDelete,usersGet,usersPatch,usersPost, allUser} = require('../controllers/users')
 const {validarCampos} = require('../middlewares/validateFields')
 const {userExist} = require('../helpers/validators')
 
@@ -10,6 +10,7 @@ const {userExist} = require('../helpers/validators')
 const router = Router();
 
 router.get('/',usersGet);
+router.get('/all', allUser);
 
 
 //Con el check validamos, primer argumento es el campo del body a validar, segundo argumento el mensaje
@@ -22,7 +23,7 @@ router.post('/',[
 
 router.put('/:id',[
     check('id','Not valid ID').isMongoId(),
-    check('id').custom(userExist), //Revisar no funciona el findbyid
+   // check('id').custom(userExist), //Revisar no funciona el findbyid
     validarCampos
 ], usersPut)
 

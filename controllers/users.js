@@ -18,6 +18,14 @@ const usersGet = async (req = request, res = response) => {
   });
 };
 
+const allUser= async (req=request, res= response)=>{
+  const users = await Promise.all([ User.find()]);
+
+  res.json({
+    users
+  })
+}
+
 const usersPost = async (req, res = response) => {
   try {
     const { name, surname, email, password, rol, dni } = req.body; //Esto debe venir del body
@@ -77,4 +85,6 @@ module.exports = {
   usersPut,
   usersPatch,
   usersDelete,
+  allUser,
+  
 };
