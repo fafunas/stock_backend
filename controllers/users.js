@@ -18,6 +18,14 @@ const usersGet = async (req = request, res = response) => {
   });
 };
 
+const allUser= async (req=request, res= response)=>{
+  const users = await Promise.all([ User.find()]);
+
+  res.json({
+    users
+  })
+}
+
 const usersPost = async (req, res = response) => {
   try {
     const { name, surname, email, password, rol, dni } = req.body; //Esto debe venir del body
@@ -65,8 +73,6 @@ const usersPatch = (req, res = response) => {
 const usersDelete = async (req, res = response) => {
   const { id } = req.params;
 
-  // Fisicamente lo borramos
-  // const usuario = await Usuario.findByIdAndDelete( id );
 
   const user = await User.findByIdAndUpdate(id, { status: false });
 
@@ -79,4 +85,6 @@ module.exports = {
   usersPut,
   usersPatch,
   usersDelete,
+  allUser,
+  
 };
