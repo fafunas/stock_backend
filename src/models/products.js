@@ -4,11 +4,13 @@ const { Schema, model, default: mongoose } = require ('mongoose');
 const ProductSchema= Schema({
     group:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'group'
+        ref: 'Group',
+        required: true
     },
     type:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'type'
+        ref: 'Type',
+        required: true
     },
     cod:{
         type: String,
@@ -27,6 +29,7 @@ const ProductSchema= Schema({
     },
     stock:{
         type:Number,
+        default: 0
     }
 
 },{timestamps: true})
