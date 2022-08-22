@@ -1,4 +1,3 @@
-const timespan = require("jsonwebtoken/lib/timespan");
 const { Schema, model } = require("mongoose");
 
 const GroupSchema = Schema({
@@ -11,5 +10,11 @@ const GroupSchema = Schema({
     required: [true, "La descripcion es Obligatoria"],
   },
 },{timestamps: true});
+
+GroupSchema.methods.toJSON = function(){
+  const {__v,_id, ...group}= this.toObject();
+  group.id= _id;
+  return group;
+}
 
 module.exports = model("Group", GroupSchema);

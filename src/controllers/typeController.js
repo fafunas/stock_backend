@@ -2,9 +2,12 @@ const { response, request } = require("express");
 
 const Type = require('../models/types')
 
-const getType = (req = request, res = response) => {
-  const allType = typeServices.getType();
-  res.json(allType);
+const getTypes = async(req = request, res = response) => {
+  const types= await Promise.all([Type.find()])
+
+  res.json({
+      types
+  })
 };
 
 const postType = async (req = request, res = response) => {
@@ -25,10 +28,7 @@ const postType = async (req = request, res = response) => {
 
     await type.save();
 
-    res.json({
-        msg:'Type Created',
-        type
-    })
+    
 
   } catch (error) {
     res
@@ -38,13 +38,11 @@ const postType = async (req = request, res = response) => {
 };
 
 const putType = (req = request, res = response) => {
-  const updateType = typeServices.putType();
-  res.json(updateType);
+
 };
 
 const deleteType = (req = request, res = response) => {
-  const deleteType = typeServices.deleteType();
-  res.json(deleteType);
+ 
 };
 
-module.exports = { getType, postType, putType, deleteType };
+module.exports = { getTypes, postType};

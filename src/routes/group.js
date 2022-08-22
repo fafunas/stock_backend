@@ -2,13 +2,13 @@ const {Router} = require('express');
 //const {check} = require('express-validator');
 const {validarCampos} = require('../middlewares/validateFields')
 
-const {postType, getTypes} = require('../controllers/typeController')
+const {postGroup, getGroup} = require('../controllers/groupController')
 
 
 const router = Router();
 
-router.post('/',[validarCampos],postType)
-router.get('/',getTypes)
+router.post('/',[validarCampos],postGroup)
+router.get('/',getGroup)
 
 
 
