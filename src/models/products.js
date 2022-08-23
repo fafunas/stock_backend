@@ -21,7 +21,8 @@ const ProductSchema= Schema({
     },
     stock_min:{
         type: Number,
-        default: 0
+        default: 0,
+        require : true
     },
     status:{
         type: Boolean,
@@ -33,6 +34,13 @@ const ProductSchema= Schema({
     }
 
 },{timestamps: true})
+
+
+ProductSchema.methods.toJSON = function(){
+    const {__v, _id, ...product} = this.toObject();
+    product.id = _id;
+    return product;
+}
 
 
 module.exports = model('Product',ProductSchema);

@@ -8,7 +8,9 @@ const productGet = async (req = request, res = response) => {
 
   const [total, productos] = await Promise.all([
     productModel.countDocuments(query), //trae el total de productos True y se almacena en Total
-    productModel.find(query).skip(Number(desde)).limit(Number(limite)), // trae x cantidad de productos y se almacena en la variable productos
+    productModel.find(query).skip(Number(desde)).limit(Number(limite))
+    .populate({path:'type', select:'cod'})
+    .populate({path:'group',select:'cod'}) // trae x cantidad de productos y se almacena en la variable productos
   ]);
 
   res.json({
