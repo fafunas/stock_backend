@@ -49,4 +49,25 @@ const productPost = async (req = request, res = response) => {
   }
 };
 
-module.exports = { productGet, productPost };
+const productPut = async(req= request, res=response) =>{
+
+  const {id} = req.params
+
+  const {cod, group, type, description, stock_min} = req.body;
+
+  const product = await productModel.findByIdAndUpdate(id,{cod, group, type, description, stock_min})
+
+  res.json(product)
+};
+
+
+//Se actualiza el estado, no se elimina
+const productDelete = async (req=request, res= response)=>{
+  const {id} = req.params;
+
+  const productUpdate = await productModel.findByIdAndUpdate(id,{status:false})
+
+  res.json(productUpdate)
+};
+
+module.exports = { productGet, productPost, productPut,productDelete };
