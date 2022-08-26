@@ -14,6 +14,7 @@ class Server{
         this.typePath ='/api/types';
         this.groupPath = '/api/groups';
         this.productPath = '/api/products';
+        this.supplierPath = '/api/supplier'
 
 
         //Db Conection
@@ -53,6 +54,7 @@ class Server{
         this.app.use(this.typePath,require('../routes/type'))
         this.app.use(this.groupPath, require('../routes/group'))
         this.app.use(this.productPath, require('../routes/product'))
+        this.app.use(this.supplierPath,require('../routes/supplier'))
     }
 
 
