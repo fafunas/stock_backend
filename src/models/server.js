@@ -10,7 +10,11 @@ class Server{
 
         //Paths
         this.userPath = '/api/users';
-        this.authPath= '/api/auth'
+        this.authPath= '/api/auth';
+        this.typePath ='/api/types';
+        this.groupPath = '/api/groups';
+        this.productPath = '/api/products';
+
 
         //Db Conection
         this.conectdb();
@@ -46,6 +50,9 @@ class Server{
     routes(){
         this.app.use(this.userPath,require('../routes/users'))
         this.app.use(this.authPath,require('../routes/auth'))
+        this.app.use(this.typePath,require('../routes/type'))
+        this.app.use(this.groupPath, require('../routes/group'))
+        this.app.use(this.productPath, require('../routes/product'))
     }
 
 

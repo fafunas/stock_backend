@@ -23,7 +23,7 @@ router.post('/',[
 
 router.put('/:id',[
     check('id','Not valid ID').isMongoId(),
-   // check('id').custom(userExist), //Revisar no funciona el findbyid
+    check('id').custom(userExist), //Revisar no funciona el findbyid
     validarCampos
 ], usersPut)
 
