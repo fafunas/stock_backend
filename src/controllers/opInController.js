@@ -42,6 +42,7 @@ const opInGet =async (req=request, res=response)=>{
         opInModel.find()
         .populate({path:'user', select:'name'})
         .populate({path:'supplier',select:'name'})
+        .populate({path:'items.product',select:'description'})
 
     ]);
 

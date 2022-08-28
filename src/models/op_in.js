@@ -35,6 +35,6 @@ const OpInSchema = Schema({
   date: {
     type: Date,
   },
-});
+},{timestamps: true});
 
 module.exports = model("OpIn", OpInSchema);
