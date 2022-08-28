@@ -8,9 +8,9 @@ const router = Router();
 
 router.get('/',productGet);
 
-router.post('/',[validarCampos],productPost)
+router.post('/',[validarCampos],productPost);
 
-router.put('/:id',[validarCampos],productPut)
+router.put('/:id',[validarCampos],productPut);
 
 
 module.exports= router;
