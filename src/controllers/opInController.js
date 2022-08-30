@@ -1,6 +1,7 @@
 const { response, request } = require("express");
 
 const opInModel = require("../models/op_in.js");
+const productModel = require ("../models/products.js")
 
 const opInPost = async (req = request, res = response) => {
   try {
@@ -23,6 +24,23 @@ const opInPost = async (req = request, res = response) => {
       supplier,
       date,
     });
+
+
+    items.forEach(e => {
+       productModel.findByIdAndUpdate(e.product,{
+        $inc:{stock: e.quantity}
+      },{new:true})
+      .then((updatedItem)=>{
+        if(!updatedItem){
+          console.log('Cannot Update');
+        }
+        else{
+          console.log(updatedItem)
+        }
+      })
+
+    });
+    
 
     res.json({
       msg: "Registry Ok",

@@ -15,14 +15,15 @@ const OpInSchema = Schema({
         quantity: {
         type: Number,
       },
+      nro_rq: {
+        type: Number,
+      },
+      observation: {
+        type: String,
+      },
     },
   ],
-  nro_rq: {
-    type: Number,
-  },
-  observation: {
-    type: String,
-  },
+  
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
