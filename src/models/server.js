@@ -16,6 +16,7 @@ class Server{
         this.productPath = '/api/products';
         this.supplierPath = '/api/supplier';
         this.warehouseInPath ='/api/warehouse/in'
+        this.warehouseOUTPath = '/api/warehouse/out'
 
 
         //Db Conection
@@ -57,6 +58,7 @@ class Server{
         this.app.use(this.productPath, require('../routes/product'))
         this.app.use(this.supplierPath,require('../routes/supplier'))
         this.app.use(this.warehouseInPath, require('../routes/opIn'))
+        this.app.use(this.warehouseOUTPath, require('../routes/opOut'))
     }
 
 
