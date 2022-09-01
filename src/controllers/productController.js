@@ -8,15 +8,36 @@ const productGet = async (req = request, res = response) => {
 
   const [total, productos] = await Promise.all([
     productModel.countDocuments(query), //trae el total de productos True y se almacena en Total
-    productModel.find(query).skip(Number(desde)).limit(Number(limite))
-    .populate({path:'type', select:'cod'})
-    .populate({path:'group',select:'cod'}) // trae x cantidad de productos y se almacena en la variable productos
+    productModel
+      .find(query)
+      .skip(Number(desde))
+      .limit(Number(limite))
+      .populate({ path: "type", select: "cod" })
+      .populate({ path: "group", select: "cod" }), // trae x cantidad de productos y se almacena en la variable productos
   ]);
 
   res.json({
     total,
     productos,
   });
+};
+
+const getProductByID = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const product = await productModel.findById(id);
+
+    const productStock = [{
+      "product" : id,
+      "stock" : product.stock
+    }]
+
+    return res.json({ ok: true, productStock });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILDED", data: { error: error?.message || error } });
+  }
 };
 
 const productPost = async (req = request, res = response) => {
@@ -49,25 +70,31 @@ const productPost = async (req = request, res = response) => {
   }
 };
 
-const productPut = async(req= request, res=response) =>{
+const productPut = async (req = request, res = response) => {
+  const { id } = req.params;
 
-  const {id} = req.params
+  const { cod, group, type, description, stock_min } = req.body;
 
-  const {cod, group, type, description, stock_min} = req.body;
+  const product = await productModel.findByIdAndUpdate(id, {
+    cod,
+    group,
+    type,
+    description,
+    stock_min,
+  });
 
-  const product = await productModel.findByIdAndUpdate(id,{cod, group, type, description, stock_min})
-
-  res.json(product)
+  res.json(product);
 };
-
 
 //Se actualiza el estado, no se elimina
-const productDelete = async (req=request, res= response)=>{
-  const {id} = req.params;
+const productDelete = async (req = request, res = response) => {
+  const { id } = req.params;
 
-  const productUpdate = await productModel.findByIdAndUpdate(id,{status:false})
+  const productUpdate = await productModel.findByIdAndUpdate(id, {
+    status: false,
+  });
 
-  res.json(productUpdate)
+  res.json(productUpdate);
 };
 
-module.exports = { productGet, productPost, productPut,productDelete };
+module.exports = { productGet, productPost, productPut, productDelete, getProductByID };
