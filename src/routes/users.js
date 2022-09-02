@@ -6,11 +6,13 @@ const {usersPut,usersDelete,usersGet,usersPatch,usersPost, allUser} = require('.
 const {validarCampos} = require('../middlewares/validateFields')
 const {userExist} = require('../helpers/validators')
 
+const {verifyToken, isAdmin} = require ('../middlewares/authentication')
+
 
 const router = Router();
 
-router.get('/',usersGet);
-router.get('/all', allUser);
+router.get('/',[verifyToken],usersGet);
+router.get('/all',[verifyToken,isAdmin], allUser);
 
 
 //Con el check validamos, primer argumento es el campo del body a validar, segundo argumento el mensaje

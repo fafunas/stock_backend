@@ -44,6 +44,7 @@ class Server{
         this.app.use( cors() );
 
         // Lectura y parseo del body
+        this.app.use(express.urlencoded({ extended: true }));
         this.app.use( express.json() );
 
         // Directorio Público
