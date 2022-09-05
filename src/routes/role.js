@@ -3,12 +3,13 @@ const {Router} = require('express');
 const {validarCampos} = require('../middlewares/validateFields')
 
 const {getRoles, postRole} = require('../controllers/roleController')
+const {verifyToken, isAdmin} = require ('../middlewares/authentication')
 
 
 const router = Router();
 
-router.post('/',[validarCampos],postRole)
-router.get('/',getRoles)
+router.post('/',[validarCampos,verifyToken,isAdmin],postRole)
+router.get('/',[verifyToken],getRoles)
 
 
 
