@@ -24,8 +24,6 @@ const isAdmin = (req, res, next) => {
       res.status(500).send({ message: err });
       return;
     }
-
-   // console.log("usuario",user)
    
     Role.find(
       {
