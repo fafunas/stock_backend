@@ -2,7 +2,8 @@ const { response } = require("express");
 const bcryptjs = require('bcryptjs');
 
 const User = require("../models/users");
-const { genJWT } = require("../helpers/jwt");
+//const { genJWT } = require("../helpers/jwt");
+const jwt = require('jsonwebtoken')
 
 const login = async (req, res = response) => {
   const { email, password } = req.body;
@@ -33,7 +34,8 @@ const login = async (req, res = response) => {
     }
 
     //JWT
-     const token = await genJWT(user.id);
+    // const token = await genJWT({id: user.id});
+    const token = await jwt.sign({ user }, process.env.SECREYKEY, { expiresIn:'4h' });
  
     res.json({
    token

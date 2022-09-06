@@ -17,6 +17,7 @@ class Server{
         this.supplierPath = '/api/supplier';
         this.warehouseInPath ='/api/warehouse/in'
         this.warehouseOUTPath = '/api/warehouse/out'
+        this.rolePath = '/api/rol';
 
 
         //Db Conection
@@ -43,6 +44,7 @@ class Server{
         this.app.use( cors() );
 
         // Lectura y parseo del body
+        this.app.use(express.urlencoded({ extended: true }));
         this.app.use( express.json() );
 
         // Directorio Público
@@ -59,6 +61,7 @@ class Server{
         this.app.use(this.supplierPath,require('../routes/supplier'))
         this.app.use(this.warehouseInPath, require('../routes/opIn'))
         this.app.use(this.warehouseOUTPath, require('../routes/opOut'))
+        this.app.use(this.rolePath,require('../routes/role'))
     }
 
 

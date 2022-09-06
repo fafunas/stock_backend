@@ -1,4 +1,4 @@
-const { Schema, model} = require ('mongoose');
+const { Schema, model, default: mongoose} = require ('mongoose');
 
 
 const UserSchema= Schema({
@@ -26,9 +26,9 @@ const UserSchema= Schema({
         unique: true
     },
     rol:{
-        type: String,
-        required: [true,'El Rol es obligatorio'],
-        emun: ['ADMIN_ROLE', 'USER_ROLE']
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role'
+        
     },
     status:{
         type: Boolean,
