@@ -33,6 +33,9 @@ const OpInSchema = Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Supplier",
   },
+  referral:{
+    type: Number
+  },
   date: {
     type: Date,
   },

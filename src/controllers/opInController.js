@@ -5,7 +5,7 @@ const productModel = require ("../models/products.js")
 
 const opInPost = async (req = request, res = response) => {
   try {
-    const { nro_in, items, nro_rq, observation, user, supplier, date } =
+    const { nro_in, items, nro_rq, observation, user, supplier, date, referral } =
       req.body;
 
     if (!nro_in || !items || !user) {
@@ -23,6 +23,7 @@ const opInPost = async (req = request, res = response) => {
       user,
       supplier,
       date,
+      referral
     });
 
 

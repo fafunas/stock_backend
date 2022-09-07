@@ -41,7 +41,7 @@ const isAdmin = (req, res, next) => {
           }
         }
         res.status(403).send({ message: "Require Admin Role!" });
-        console.log("vamosss", rol)
+       // console.log("vamosss", rol)
 
         return;
       }
