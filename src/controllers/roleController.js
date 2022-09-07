@@ -1,6 +1,7 @@
 const { response, request } = require("express");
 
 const Role = require('../models/role')
+const User = require('../models/users')
 
 const getRoles = async(req = request, res = response) => {
   const roles= await Promise.all([Role.find()])
@@ -9,6 +10,26 @@ const getRoles = async(req = request, res = response) => {
     roles
   })
 };
+
+const getRolByUserId = async(req=request, res=response)=>{
+  try {
+    const {email} = req.body
+
+    const user = await User.findOne({email}).populate({path:"rol",select: "rol"})
+
+    const role = user.rol.rol
+
+    res.json({
+      role
+    })
+   
+    
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILDED", data: { error: error?.message || error } });
+  }
+}
 
 const postRole = async (req = request, res = response) => {
   try {
@@ -43,4 +64,4 @@ const postRole = async (req = request, res = response) => {
 };
 
 
-module.exports = { getRoles, postRole};
+module.exports = { getRoles, postRole, getRolByUserId};
