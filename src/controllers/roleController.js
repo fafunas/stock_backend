@@ -17,10 +17,14 @@ const getRolByUserId = async(req=request, res=response)=>{
 
     const user = await User.findOne({email}).populate({path:"rol",select: "rol"})
 
+    const i = user._id
     const role = user.rol.rol
+    
 
     res.json({
-      role
+      role,
+      i
+      
     })
    
     

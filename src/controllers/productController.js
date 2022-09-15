@@ -22,6 +22,41 @@ const productGet = async (req = request, res = response) => {
   });
 };
 
+//Devuelve los prodcutos que esten por debajo del minimo e iguales
+const productStockCount = async (req= request, res = response)=>{
+ 
+   let pipeline =[];
+   const project = {'$project':{description:1, stock:1, stock_min:1, lessthan:{$lt:["$stock","$stock_min"]}}}
+   const match = {'$match': {"lessthan":true}}
+   pipeline.push(project);
+   pipeline.push(match);
+   const lessthan = await productModel.aggregate(pipeline)
+   const count = {'$count': 'lessthan'}
+   pipeline.push(count)
+   const lessTotal = await productModel.aggregate(pipeline)
+
+  let pipeline2 =[];
+  const project2 = {'$project':{description:1, stock:1, stock_min:1, equalTo:{$eq:["$stock","$stock_min"]}}}
+  const match2 = {'$match': {"equalTo":true}}
+  pipeline2.push(project2);
+  pipeline2.push(match2);
+  const same = await productModel.aggregate(pipeline2)
+  const count2 = {'$count': 'equalTo'}
+  pipeline2.push(count2)
+  const totalSame = await productModel.aggregate(pipeline2)
+
+
+  
+  res.json({
+    lessthan,
+    lessTotal,
+    same,
+    totalSame
+   
+  })
+}
+
+
 const getProductByID = async (req = request, res = response) => {
   try {
     const { id } = req.params;
@@ -97,4 +132,4 @@ const productDelete = async (req = request, res = response) => {
   res.json(productUpdate);
 };
 
-module.exports = { productGet, productPost, productPut, productDelete, getProductByID };
+module.exports = { productGet, productPost, productPut, productDelete, getProductByID,productStockCount };
