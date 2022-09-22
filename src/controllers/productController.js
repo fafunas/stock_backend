@@ -11,7 +11,8 @@ const productGet = async (req = request, res = response) => {
     productModel
       .find(query)
       .skip(Number(desde))
-      .limit(Number(limite))
+      .sort({description:1})
+    // .limit(Number(limite))
       .populate({ path: "type", select: "cod" })
       .populate({ path: "group", select: "cod" }), // trae x cantidad de productos y se almacena en la variable productos
   ]);
@@ -53,12 +54,29 @@ const productLimitCount = async (req = request, res = response) => {
   const count2 = { $count: "equalTo" };
   pipeline2.push(project2);
   pipeline2.push(match2);
- pipeline2.push(count2);
+  pipeline2.push(count2);
   const equalTo = await productModel.aggregate(pipeline2);
+
+  let pipeline3 = [];
+  const project3 = {
+    $project: {
+      description: 1,
+      stock: 1,
+      stock_min: 1,
+      greater: { $gt: ["$stock", "$stock_min"] },
+    },
+  };
+  const match3 = { $match: { greater: true } };
+  const count3 = { $count: "greater" };
+  pipeline3.push(project3);
+  pipeline3.push(match3);
+  pipeline3.push(count3);
+  const greater = await productModel.aggregate(pipeline3);
 
   res.json({
     lessTotal,
     equalTo,
+    greater,
   });
 };
 
@@ -79,7 +97,7 @@ const getProductslessStock = async (req = request, res = response) => {
     const lessthan = await productModel.aggregate(pipeline);
 
     res.json({
-      lessthan
+      lessthan,
     });
   } catch (error) {
     res
@@ -105,7 +123,33 @@ const getProductsSameStock = async (req = request, res = response) => {
     const same = await productModel.aggregate(pipeline);
 
     res.json({
-      same
+      same,
+    });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILDED", data: { error: error?.message || error } });
+  }
+};
+
+const getProductsMoreStock = async (req = request, res = response) => {
+  try {
+    let pipeline = [];
+    const project = {
+      $project: {
+        description: 1,
+        stock: 1,
+        stock_min: 1,
+        greaterthan: { $gt: ["$stock", "$stock_min"] },
+      },
+    };
+    const match = { $match: { greaterthan: true } };
+    pipeline.push(project);
+    pipeline.push(match);
+    const greater = await productModel.aggregate(pipeline);
+
+    res.json({
+      greater,
     });
   } catch (error) {
     res
@@ -199,6 +243,6 @@ module.exports = {
   getProductByID,
   productLimitCount,
   getProductslessStock,
-  getProductsSameStock
-  
+  getProductsSameStock,
+  getProductsMoreStock,
 };

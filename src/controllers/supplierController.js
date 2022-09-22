@@ -32,7 +32,7 @@ const supplierPost = async (req = request, res = response) => {
 const supplierGet = async (req = request, res = response) => {
 
     try {
-        const suppliers = await Promise.all([supplierModel.find()])
+        const suppliers = await Promise.all([supplierModel.find().sort({name:1})])
     res.json({
         suppliers
     })
