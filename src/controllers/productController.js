@@ -1,6 +1,9 @@
 const { response, request } = require("express");
 
 const productModel = require("../models/products");
+const opInModel = require("../models/op_in");
+const opOutModel = require("../models/op_out");
+const opLeaseModel = require("../models/op_lease");
 
 const productGet = async (req = request, res = response) => {
   const { limite = 10, desde = 0 } = req.query;
@@ -11,8 +14,8 @@ const productGet = async (req = request, res = response) => {
     productModel
       .find(query)
       .skip(Number(desde))
-      .sort({description:1})
-    // .limit(Number(limite))
+      .sort({ description: 1 })
+      // .limit(Number(limite))
       .populate({ path: "type", select: "cod" })
       .populate({ path: "group", select: "cod" }), // trae x cantidad de productos y se almacena en la variable productos
   ]);
@@ -235,6 +238,26 @@ const productDelete = async (req = request, res = response) => {
   res.json(productUpdate);
 };
 
+const totalMovements = async (req = request, res = response) => {
+  try {
+    const totalIn = await Promise.all([opInModel.countDocuments()]);
+
+    const totalOut = await Promise.all([opOutModel.countDocuments()]);
+
+    const totalLease = await Promise.all([opLeaseModel.countDocuments()]);
+
+    res.json({
+      totalIn,
+      totalOut,
+      totalLease
+    })
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILDED", data: { error: error?.message || error } });
+  }
+};
+
 module.exports = {
   productGet,
   productPost,
@@ -245,4 +268,5 @@ module.exports = {
   getProductslessStock,
   getProductsSameStock,
   getProductsMoreStock,
+  totalMovements
 };
