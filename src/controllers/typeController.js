@@ -3,7 +3,7 @@ const { response, request } = require("express");
 const Type = require('../models/types')
 
 const getTypes = async(req = request, res = response) => {
-  const types= await Promise.all([Type.find()])
+  const types= await Promise.all([Type.find().sort({cod:1})])
 
   res.json({
       types

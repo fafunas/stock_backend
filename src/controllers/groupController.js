@@ -3,7 +3,7 @@ const { response, request } = require("express");
 const Group = require("../models/groups");
 
 const getGroup = async (req = request, res = response) => {
-  const group = await Promise.all([Group.find()]);
+  const group = await Promise.all([Group.find().sort({cod:1})]);
 
   res.json({
     group,
